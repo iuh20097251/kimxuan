@@ -1,0 +1,49 @@
+services:
+  mysql:
+    image: mysql
+    container_name: mysqlscrapy
+    restart: always
+    environment:
+      - MYSQL_DATABASE=bookscrapy
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_ROOT_PASSWORD=test
+    volumes:
+    - bookmysql:/var/lib/mysql
+    ports:
+    - "3306:3306"
+    networks:
+    - netscrapy
+
+  postgres:
+    image: postgres
+    container_name: postgresscrapy
+    restart: always
+    environment:
+      - POSTGRES_DB=bookscrapy
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    volumes:
+    - bookpost:/var/lib/postgresql/data
+    ports:
+    - "5432:5432"
+    networks:
+    - netscrapy
+
+  adminer:
+    image: adminer
+    container_name: admin
+    restart: always
+    ports:
+    - "8080:8080"
+    networks:
+    - netscrapy
+
+volumes:
+  bookpost:
+    driver: local
+  bookmysql:
+    driver: local
+
+networks:
+  netscrapy:
